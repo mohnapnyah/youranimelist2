@@ -1,6 +1,45 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Registration extends StatelessWidget {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  void _registerUser(BuildContext context) async {
+    try {
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        email: _usernameController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      // Регистрация прошла успешно, можно выполнить дополнительные действия
+      // Например, перейти на другой экран
+      //Navigator.pushReplacementNamed(context, '/home');
+    } catch (e) {
+      // Обработка ошибок при регистрации
+      print('Ошибка при регистрации: $e');
+      // Показать сообщение об ошибке
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Ошибка'),
+            content: Text('Не удалось зарегистрировать пользователя.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,6 +60,7 @@ class Registration extends StatelessWidget {
               ),
               SizedBox(height: 20.0),
               TextFormField(
+                controller: _usernameController,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -38,6 +78,7 @@ class Registration extends StatelessWidget {
               ),
               SizedBox(height: 20.0),
               TextFormField(
+                controller: _passwordController,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -58,6 +99,7 @@ class Registration extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   // Обработчик нажатия кнопки "Sign Up"
+                  _registerUser(context);
                 },
                 child: Text(
                   'Sign Up',

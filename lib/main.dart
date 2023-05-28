@@ -34,7 +34,25 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class RegistrationScreen extends StatelessWidget {
+class RegistrationScreen extends StatefulWidget {
+  RegistrationScreen({super.key});
+
+   @override
+  State<RegistrationScreen> createState() => _RegistrationScreenState();
+}
+
+class _RegistrationScreenState extends State<RegistrationScreen> {
+  TextEditingController usernameTextInputController = TextEditingController();
+  TextEditingController passwordTextInputController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  
+   @override
+  void dispose() {
+    usernameTextInputController.dispose();
+    passwordTextInputController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +75,7 @@ class RegistrationScreen extends StatelessWidget {
               ),
               SizedBox(height: 20.0),
               TextFormField(
+                controller: usernameTextInputController,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -74,6 +93,7 @@ class RegistrationScreen extends StatelessWidget {
               ),
               SizedBox(height: 20.0),
               TextFormField(
+                controller: passwordTextInputController,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -93,6 +113,7 @@ class RegistrationScreen extends StatelessWidget {
               SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: () {
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => MainScreen()),

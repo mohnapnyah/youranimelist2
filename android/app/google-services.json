@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "454517778102",
+    "project_id": "youranimelist-4c7a1",
+    "storage_bucket": "youranimelist-4c7a1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454517778102:android:713b7365ac0a83168e6817",
+        "android_client_info": {
+          "package_name": "com.example.youranimelist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "454517778102-034ikjpi6sv6tnq1tlhh8vds9vttpklt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8gYwFaMuqJemNLfZ3oJNFruwY06RMraE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "454517778102-034ikjpi6sv6tnq1tlhh8vds9vttpklt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

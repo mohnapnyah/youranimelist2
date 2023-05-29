@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:youranimelist/User.dart';
 import 'AnimeDetailsScreen.dart';
 import 'AnimeTitle.dart';
 import 'AnimeCard.dart';
@@ -12,15 +11,13 @@ import 'WaitingPage.dart';
 
 class MainScreen extends StatefulWidget {
   
-  
-
  @override
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
-   User? currentUser;
+ 
 
 
   @override
@@ -129,35 +126,14 @@ class _MainScreenState extends State<MainScreen> {
       )
       );
     }
-  List<Anime> animeListFav = summerAnimeList ;
    List<Widget> _pages = [
     singelChild(context),
     // MainScreen(),
-    WaitingPage(favoriteAnimeList: animeListFav),
+    WaitingPage(),
   ];
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('YourAnimeList'),
-        backgroundColor: Color(0xFF2E51A2),
-        actions: [
-          Container(
-            margin: EdgeInsets.only(right: 10.0),
-            child: Row(
-              children: [
-                SizedBox(width: 10.0),
-                CircleAvatar(
-                  // Здесь можете добавить код для отображения аватарки пользователя
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-      
-      // Это блоки сезонов со скролом
+      return Scaffold(
       body: _pages.elementAt(_currentIndex),
-      
-       bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {

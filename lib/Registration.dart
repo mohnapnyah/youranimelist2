@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+
 class Registration extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore base = FirebaseFirestore.instance;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -15,7 +17,7 @@ class Registration extends StatelessWidget {
       );
       // Регистрация прошла успешно, можно выполнить дополнительные действия
       // Например, перейти на другой экран
-      //Navigator.pushReplacementNamed(context, '/home');
+     
     } catch (e) {
       // Обработка ошибок при регистрации
       print('Ошибка при регистрации: $e');

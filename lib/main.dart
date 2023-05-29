@@ -1,19 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:youranimelist/AnimeTitle.dart';
-import 'package:youranimelist/MainScreen.dart';
+import 'MainScreen.dart';
 import 'Registration.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
  
-void initFirebase() async{
+
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-}
-
-void main() {
   runApp(const MyApp());
-  initFirebase();
 }
 
 class MyApp extends StatelessWidget {
@@ -25,7 +21,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
@@ -34,23 +29,44 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class RegistrationScreen extends StatefulWidget {
-  RegistrationScreen({super.key});
-
-   @override
-  State<RegistrationScreen> createState() => _RegistrationScreenState();
-}
-
-class _RegistrationScreenState extends State<RegistrationScreen> {
-  TextEditingController usernameTextInputController = TextEditingController();
-  TextEditingController passwordTextInputController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
+class RegistrationScreen extends StatelessWidget {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   
-   @override
-  void dispose() {
-    usernameTextInputController.dispose();
-    passwordTextInputController.dispose();
-    super.dispose();
+
+  void _signInUser(BuildContext context) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: _usernameController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      // Авторизация прошла успешно, можно выполнить дополнительные действия
+      // Например, перейти на другой экран
+      
+      Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
+    } catch (e) {
+      // Обработка ошибок при авторизации
+      print('Ошибка при авторизации: $e');
+      // Показать сообщение об ошибке
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Ошибка'),
+            content: Text('Не удалось авторизовать пользователя.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -65,17 +81,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             children: [
               Text(
                 'Authorization',
-                style: GoogleFonts.nunito(
-                  textStyle: TextStyle(
+                style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF2E51A2),
                 ),
               ),
-              ),
               SizedBox(height: 20.0),
               TextFormField(
-                controller: usernameTextInputController,
+                controller: _usernameController,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -93,7 +107,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
               SizedBox(height: 20.0),
               TextFormField(
-                controller: passwordTextInputController,
+                controller: _passwordController,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -113,11 +127,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: () {
-
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainScreen()),
-                  );
+                  // Обработчик нажатия кнопки "Sign In"
+                  _signInUser(context);
                 },
                 child: Text(
                   'Sign In',
@@ -133,7 +144,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               SizedBox(height: 10.0),
               TextButton(
                 onPressed: () {
-                   Navigator.push(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Registration()),
                   );

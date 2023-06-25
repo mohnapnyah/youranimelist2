@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'AnimeTitle.dart';
+import 'AnimeDetailsScreen.dart';
 
   class WaitingPage extends StatefulWidget {
   @override
@@ -60,10 +61,23 @@ class _WaitingPageState extends State<WaitingPage> {
               itemCount: favoriteAnimeList.length,
               itemBuilder: (context, index) {
                 final anime = favoriteAnimeList[index];
+                final isFavorite = true; // Check if anime is in favoriteAnime list
+
                 return GridTile(
-                  child: Image.asset(
-                    anime.posterUrl,
-                    fit: BoxFit.cover,
+                  child: GestureDetector(
+                    onTap: () {
+                      // Перейти на страницу AnimeDetailsScreen при нажатии на карточку аниме
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AnimeDetailScreen(animeTitle: anime.title),
+                        ),
+                      );
+                    },
+                    child: Image.asset(
+                      anime.posterUrl,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   footer: GridTileBar(
                     backgroundColor: Colors.black45,
@@ -74,6 +88,20 @@ class _WaitingPageState extends State<WaitingPage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    trailing: IconButton(
+                      icon: Icon(
+                        isFavorite ? Icons.star : Icons.star_border,
+                        color: Colors.yellow,
+                      ),
+                      onPressed: () {
+                        // Обработчик нажатия на звезду
+                        if (isFavorite) {
+                          _removeFromFavorites(anime.title);
+                        } else {
+                          // Добавить аниме в список favoriteAnime
+                        }
+                      },
+                    ),
                   ),
                 );
               },
@@ -82,5 +110,18 @@ class _WaitingPageState extends State<WaitingPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _removeFromFavorites(String title) async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      final favoriteAnimeRef = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('favoriteAnime');
+
+      await favoriteAnimeRef.doc(title).delete();
+    }
   }
 }

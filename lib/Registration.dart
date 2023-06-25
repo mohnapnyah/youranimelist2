@@ -11,13 +11,31 @@ class Registration extends StatelessWidget {
 
   void _registerUser(BuildContext context) async {
     try {
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
         email: _usernameController.text.trim(),
         password: _passwordController.text.trim(),
       );
       // Регистрация прошла успешно, можно выполнить дополнительные действия
-      // Например, перейти на другой экран
-     
+      // Например, показать сообщение об успешной регистрации
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Успешная регистрация'),
+            content: Text('Пользователь успешно зарегистрирован.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      // Дополнительные действия после успешной регистрации, например, перейти на другой экран
     } catch (e) {
       // Обработка ошибок при регистрации
       print('Ошибка при регистрации: $e');
@@ -118,6 +136,23 @@ class Registration extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Registration Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: Registration(),
     );
   }
 }

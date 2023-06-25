@@ -82,6 +82,8 @@ flutter:
     - assets/battle.jpg
     - assets/kaiju.jpg
     - assets/stas.mp4
+    - assets/blea.mp4
+
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

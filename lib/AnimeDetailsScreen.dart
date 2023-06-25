@@ -15,21 +15,20 @@ class AnimeDetailScreen extends StatefulWidget {
 
 class _AnimeDetailScreenState extends State<AnimeDetailScreen> {
   bool isFavorite = false;
-  late VideoPlayerController _videoPlayerController;
-  late Future<void> _initializeVideoPlayerFuture;
+  VideoPlayerController? _videoPlayerController;
+  Future<void>? _initializeVideoPlayerFuture;
+  String? trailerUrl;
 
   @override
   void initState() {
     super.initState();
-    _videoPlayerController = VideoPlayerController.asset(
-      'assets/stas.mp4',
-    );
-    _initializeVideoPlayerFuture = _videoPlayerController.initialize();
+    _checkIfFavorite();
+    _fetchTrailerUrl();
   }
 
   @override
   void dispose() {
-    _videoPlayerController.dispose();
+    _videoPlayerController?.dispose();
     super.dispose();
   }
 
@@ -129,39 +128,41 @@ class _AnimeDetailScreenState extends State<AnimeDetailScreen> {
                       ),
                     ),
                     SizedBox(height: 8.0),
-                    FutureBuilder<void>(
-                      future: _initializeVideoPlayerFuture,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return AspectRatio(
-                            aspectRatio: _videoPlayerController.value.aspectRatio,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                VideoPlayer(_videoPlayerController),
-                                IconButton(
-                                  icon: Icon(
-                                    _videoPlayerController.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      if (_videoPlayerController.value.isPlaying) {
-                                        _videoPlayerController.pause();
-                                      } else {
-                                        _videoPlayerController.play();
-                                      }
-                                    });
-                                  },
-                                ),
-                              ],
+                    Visibility(
+                      visible: trailerUrl != "",
+                      replacement: Text(
+                        'Trailer not realesed',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontFamily: 'Nunito',
+                        ),
+                      ),
+                      child: AspectRatio(
+                        aspectRatio:
+                            _videoPlayerController?.value.aspectRatio ?? 16 / 9,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            VideoPlayer(_videoPlayerController!),
+                            IconButton(
+                              icon: Icon(
+                                _videoPlayerController!.value.isPlaying
+                                    ? Icons.pause
+                                    : Icons.play_arrow,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  if (_videoPlayerController!.value.isPlaying) {
+                                    _videoPlayerController!.pause();
+                                  } else {
+                                    _videoPlayerController!.play();
+                                  }
+                                });
+                              },
                             ),
-                          );
-                        } else {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                      },
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -183,8 +184,7 @@ class _AnimeDetailScreenState extends State<AnimeDetailScreen> {
           .collection('favoriteAnime');
 
       if (isFavorite) {
-        final animeData =
-            await _getAnimeData(widget.animeTitle); // Get anime data from Firestore
+        final animeData = await _getAnimeData(widget.animeTitle); // Get anime data from Firestore
 
         await favoriteAnimeRef.doc(widget.animeTitle).set(animeData);
       } else {
@@ -199,9 +199,45 @@ class _AnimeDetailScreenState extends State<AnimeDetailScreen> {
         .where('title', isEqualTo: title)
         .get();
 
-    final animeData =
-        animeSnapshot.docs.first.data() as Map<String, dynamic>;
+    final animeData = animeSnapshot.docs.first.data() as Map<String, dynamic>;
 
     return animeData;
+  }
+
+  Future<void> _checkIfFavorite() async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      final favoriteAnimeRef = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('favoriteAnime');
+
+      final favoriteAnimeSnapshot = await favoriteAnimeRef
+          .where('title', isEqualTo: widget.animeTitle)
+          .get();
+
+      setState(() {
+        isFavorite = favoriteAnimeSnapshot.docs.isNotEmpty;
+      });
+    }
+  }
+
+  Future<void> _fetchTrailerUrl() async {
+    final animeSnapshot = await FirebaseFirestore.instance
+        .collection('Anime')
+        .where('title', isEqualTo: widget.animeTitle)
+        .get();
+
+    final animeData = animeSnapshot.docs.first.data() as Map<String, dynamic>;
+
+    final trailerUrl = animeData['trailer'] as String?;
+    setState(() {
+      this.trailerUrl = trailerUrl;
+      if (trailerUrl != null) {
+        _videoPlayerController = VideoPlayerController.asset(trailerUrl);
+        _initializeVideoPlayerFuture = _videoPlayerController!.initialize();
+      }
+    });
   }
 }

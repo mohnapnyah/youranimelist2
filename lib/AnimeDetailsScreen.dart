@@ -36,7 +36,7 @@ class _AnimeDetailScreenState extends State<AnimeDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFFE0EEFF),
+        backgroundColor: Color.fromARGB(255, 255, 195, 214),
         title: Text('Anime Details'),
         actions: [
           IconButton(
@@ -54,7 +54,7 @@ class _AnimeDetailScreenState extends State<AnimeDetailScreen> {
         ],
       ),
       body: Container(
-        color: Color(0xFFE0EEFF),
+        color: Color.fromARGB(255, 224, 238, 255),
         child: SingleChildScrollView(
           child: FutureBuilder<QuerySnapshot>(
             future: FirebaseFirestore.instance
@@ -131,7 +131,7 @@ class _AnimeDetailScreenState extends State<AnimeDetailScreen> {
                     Visibility(
                       visible: trailerUrl != "",
                       replacement: Text(
-                        'Trailer not realesed',
+                        'Trailer not released',
                         style: TextStyle(
                           fontSize: 16.0,
                           fontFamily: 'Nunito',

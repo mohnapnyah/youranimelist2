@@ -11,13 +11,23 @@ class Registration extends StatelessWidget {
 
   void _registerUser(BuildContext context) async {
     try {
-      UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: _usernameController.text.trim(),
         password: _passwordController.text.trim(),
       );
-      // Регистрация прошла успешно, можно выполнить дополнительные действия
-      // Например, показать сообщение об успешной регистрации
+
+      // Регистрация прошла успешно, создаем дополнительные поля в Firestore
+      if (userCredential.user != null) {
+        String uid = userCredential.user!.uid;
+
+        await base.collection('users').doc(uid).set({
+          'aboutMe': '',
+          'avatarUrl': '',
+        });
+      }
+
+      // Остальной код остается без изменений
+
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -35,7 +45,6 @@ class Registration extends StatelessWidget {
           );
         },
       );
-      // Дополнительные действия после успешной регистрации, например, перейти на другой экран
     } catch (e) {
       // Обработка ошибок при регистрации
       print('Ошибка при регистрации: $e');
@@ -63,7 +72,7 @@ class Registration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFE0EEFF),
+      backgroundColor: Color.fromARGB(255, 255, 195, 214),
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(20.0),
@@ -75,7 +84,7 @@ class Registration extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF2E51A2),
+                  color: Color(0xFF84142D),
                 ),
               ),
               SizedBox(height: 20.0),
@@ -85,13 +94,13 @@ class Registration extends StatelessWidget {
                   filled: true,
                   fillColor: Colors.white,
                   hintText: 'Username',
-                  hintStyle: TextStyle(color: Color(0xFF2E51A2)),
+                  hintStyle: TextStyle(color: Color.fromARGB(255, 132, 20, 45)),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFF2E51A2)),
+                    borderSide: BorderSide(color: Color.fromARGB(255, 132, 20, 45)),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFF2E51A2)),
+                    borderSide: BorderSide(color: Color(0xFF84142D)),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
@@ -103,13 +112,13 @@ class Registration extends StatelessWidget {
                   filled: true,
                   fillColor: Colors.white,
                   hintText: 'Password',
-                  hintStyle: TextStyle(color: Color(0xFF2E51A2)),
+                  hintStyle: TextStyle(color: Color(0xFF84142D)),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFF2E51A2)),
+                    borderSide: BorderSide(color: Color(0xFF84142D)),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFF2E51A2)),
+                    borderSide: BorderSide(color: Color(0xFF84142D)),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
@@ -118,7 +127,6 @@ class Registration extends StatelessWidget {
               SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: () {
-                  // Обработчик нажатия кнопки "Sign Up"
                   _registerUser(context);
                 },
                 child: Text(
@@ -126,7 +134,7 @@ class Registration extends StatelessWidget {
                   style: TextStyle(color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Color(0xFF2E51A2),
+                  primary: Color(0xFF84142D),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),

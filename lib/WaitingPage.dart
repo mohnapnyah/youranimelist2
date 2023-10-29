@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'AnimeTitle.dart';
 import 'AnimeDetailsScreen.dart';
 
-  class WaitingPage extends StatefulWidget {
+ class WaitingPage extends StatefulWidget {
   @override
   _WaitingPageState createState() => _WaitingPageState();
 }
@@ -16,7 +16,7 @@ class _WaitingPageState extends State<WaitingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Color(0xFFE0EEFF),
+        color: Color.fromARGB(255, 255, 195, 214),
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('users')
@@ -86,6 +86,7 @@ class _WaitingPageState extends State<WaitingPage> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 132, 20, 45), // Цвет текста
                       ),
                     ),
                     trailing: IconButton(

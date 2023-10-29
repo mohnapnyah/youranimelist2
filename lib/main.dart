@@ -4,8 +4,6 @@ import 'MainScreen.dart';
 import 'Registration.dart';
 import 'package:firebase_core/firebase_core.dart';
  
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -13,15 +11,16 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.blue, // Заменено на цвет из предложенной гаммы
+        ),
         useMaterial3: true,
       ),
       home: RegistrationScreen(),
@@ -33,7 +32,6 @@ class RegistrationScreen extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  
 
   void _signInUser(BuildContext context) async {
     try {
@@ -43,7 +41,6 @@ class RegistrationScreen extends StatelessWidget {
       );
       // Авторизация прошла успешно, можно выполнить дополнительные действия
       // Например, перейти на другой экран
-      
       Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
     } catch (e) {
       // Обработка ошибок при авторизации
@@ -72,7 +69,7 @@ class RegistrationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFE0EEFF),
+      backgroundColor: Color(0xFFFFC3D6), // Вишневый
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(20.0),
@@ -84,7 +81,7 @@ class RegistrationScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF2E51A2),
+                  color: Color(0xFF84142D), // Темно-вишневый
                 ),
               ),
               SizedBox(height: 20.0),
@@ -94,13 +91,13 @@ class RegistrationScreen extends StatelessWidget {
                   filled: true,
                   fillColor: Colors.white,
                   hintText: 'Username',
-                  hintStyle: TextStyle(color: Color(0xFF2E51A2)),
+                  hintStyle: TextStyle(color: Color(0xFF84142D)), // Темно-вишневый
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFF2E51A2)),
+                    borderSide: BorderSide(color: Color(0xFF84142D)), // Темно-вишневый
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFF2E51A2)),
+                    borderSide: BorderSide(color: Color(0xFF84142D)), // Темно-вишневый
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
@@ -112,13 +109,13 @@ class RegistrationScreen extends StatelessWidget {
                   filled: true,
                   fillColor: Colors.white,
                   hintText: 'Password',
-                  hintStyle: TextStyle(color: Color(0xFF2E51A2)),
+                  hintStyle: TextStyle(color: Color(0xFF84142D)), // Темно-вишневый
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFF2E51A2)),
+                    borderSide: BorderSide(color: Color(0xFF84142D)), // Темно-вишневый
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFF2E51A2)),
+                    borderSide: BorderSide(color: Color(0xFF84142D)), // Темно-вишневый
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
@@ -135,7 +132,7 @@ class RegistrationScreen extends StatelessWidget {
                   style: TextStyle(color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.black,
+                  primary: Color(0xFF84142D), // Темно-вишневый
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -152,7 +149,7 @@ class RegistrationScreen extends StatelessWidget {
                 child: Text(
                   'Sign Up',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Color(0xFF84142D), // Темно-вишневый
                     fontWeight: FontWeight.bold,
                   ),
                 ),

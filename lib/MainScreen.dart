@@ -4,47 +4,50 @@ import 'AnimeDetailsScreen.dart';
 import 'AnimeTitle.dart';
 import 'AnimeCard.dart';
 import 'WaitingPage.dart';
+import 'Profile.dart';
 
 
 
 
 
 class MainScreen extends StatefulWidget {
-  
- @override
+  @override
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
- 
-
 
   @override
   Widget build(BuildContext context) {
-    Widget singelChild(BuildContext context)
-    {
+    Widget singleChild(BuildContext context) {
       return SingleChildScrollView(
         child: Container(
-        color:  Color(0xFFE0EEFF),
-        child: Column(
-          children: [
-            // Блок "Летний аниме сезон"
-            Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Text(
-                'Summer Anime Season',
-                style: GoogleFonts.nunito(textStyle:   TextStyle(fontSize: 20.0,  fontWeight: FontWeight.bold, color: Colors.black)),
+          color: Color.fromARGB(255, 255, 195, 214), // Обновленный фоновый цвет
+          child: Column(
+            children: [
+              // Блок "Летний аниме сезон"
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text(
+                  'Summer Anime Season',
+                  style: GoogleFonts.nunito(
+                    textStyle: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 132, 20, 45), // Цвет сакуры
+                    ),
+                  ),
+                ),
               ),
-            ),
-            SizedBox(height: 10.0),
-            Container(
-              height: 200.0,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount:summerAnimeList.length, // Здесь нужно получить из AnimeTitle
-                itemBuilder: (context, index) {
-                   return GestureDetector(
+              SizedBox(height: 10.0),
+              Container(
+                height: 200.0,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: summerAnimeList.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
                       onTap: () {
                         Navigator.push(
                           context,
@@ -57,25 +60,31 @@ class _MainScreenState extends State<MainScreen> {
                         anime: summerAnimeList[index],
                       ),
                     );
-                },
+                  },
+                ),
               ),
-            ),
-            // Блок "Зимний аниме сезон"
-            Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Text(
-                'Winter Anime Season',
-                style:  GoogleFonts.nunito(textStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.black)),
+              // Блок "Зимний аниме сезон"
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text(
+                  'Winter Anime Season',
+                  style: GoogleFonts.nunito(
+                    textStyle: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 132, 20, 45), // Цвет сакуры
+                    ),
+                  ),
+                ),
               ),
-            ),
-            SizedBox(height: 10.0),
-            Container(
-              height: 200.0,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: winterAnimeList.length, // Здесь нужно получить из AnimeTitle
-                itemBuilder: (context, index) {
-                  return GestureDetector(
+              SizedBox(height: 10.0),
+              Container(
+                height: 200.0,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: winterAnimeList.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
                       onTap: () {
                         Navigator.push(
                           context,
@@ -88,24 +97,30 @@ class _MainScreenState extends State<MainScreen> {
                         anime: winterAnimeList[index],
                       ),
                     );
-                },
+                  },
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Text(
-                'Manga',
-                style:  GoogleFonts.nunito(textStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.black)),
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text(
+                  'Manga',
+                  style: GoogleFonts.nunito(
+                    textStyle: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 132, 20, 45), // Мятный цвет
+                    ),
+                  ),
+                ),
               ),
-            ),
-            SizedBox(height: 10.0),
-            Container(
-              height: 200.0,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: mangaAnimeList.length, // Здесь нужно получить из AnimeTitle
-                itemBuilder: (context, index) {
-                  return GestureDetector(
+              SizedBox(height: 10.0),
+              Container(
+                height: 200.0,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: mangaAnimeList.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
                       onTap: () {
                         Navigator.push(
                           context,
@@ -118,20 +133,22 @@ class _MainScreenState extends State<MainScreen> {
                         anime: mangaAnimeList[index],
                       ),
                     );
-                },
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      )
       );
     }
-   List<Widget> _pages = [
-    singelChild(context),
-    // MainScreen(),
-    WaitingPage(),
-  ];
-      return Scaffold(
+
+    List<Widget> _pages = [
+      singleChild(context),
+      WaitingPage(),
+      ProfileScreen(),
+    ];
+
+    return Scaffold(
       body: _pages.elementAt(_currentIndex),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -142,13 +159,17 @@ class _MainScreenState extends State<MainScreen> {
         },
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Главная',
+            icon: Icon(Icons.home, color: Color.fromARGB(255, 145, 248, 219)), // Мятная икона
+            label: 'Main page',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.hourglass_empty),
+            icon: Icon(Icons.hourglass_empty, color: Color.fromARGB(255, 145, 248, 219)), // Мятная икона
             label: 'Waiting Titles',
           ),
+          BottomNavigationBarItem(
+      icon: Icon(Icons.person, color: Color.fromARGB(255, 145, 248, 219)), // Иконка человечка
+      label: 'Профиль', // Или 'User' или что угодно другое
+    ),
         ],
       ),
     );

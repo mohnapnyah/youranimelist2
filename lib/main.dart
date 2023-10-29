@@ -69,7 +69,7 @@ class RegistrationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFFC3D6), // Вишневый
+      backgroundColor: Color.fromARGB(255, 255, 195, 214), // Вишневый
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(20.0),

@@ -22,122 +22,134 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     Widget singleChild(BuildContext context) {
       return SingleChildScrollView(
-        child: Container(
-          color: Color.fromARGB(255, 255, 195, 214), // Обновленный фоновый цвет
-          child: Column(
-            children: [
-              // Блок "Летний аниме сезон"
-              Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text(
-                  'Summer Anime Season',
-                  style: GoogleFonts.nunito(
-                    textStyle: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 132, 20, 45), // Цвет сакуры
+        child: Column(
+          children: [
+            AppBar(
+              title: Text(
+                'Weeb',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 132, 20, 45)), // Мятный цвет
+              ),
+              centerTitle: true,
+              backgroundColor: Color.fromARGB(255, 255, 195, 214), // Цвет сакуры
+            ),
+            Container(
+              color: Color.fromARGB(255, 255, 195, 214),
+              child: Column(
+                children: [
+                  // Блок "Летний аниме сезон"
+                  Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text(
+                      'Summer Anime Season',
+                      style: GoogleFonts.nunito(
+                        textStyle: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 132, 20, 45), // Цвет сакуры
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Container(
-                height: 200.0,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: summerAnimeList.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AnimeDetailScreen(animeTitle: summerAnimeList[index].title),
+                  SizedBox(height: 10.0),
+                  Container(
+                    height: 200.0,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: summerAnimeList.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AnimeDetailScreen(animeTitle: summerAnimeList[index].title),
+                              ),
+                            );
+                          },
+                          child: AnimeCard(
+                            anime: summerAnimeList[index],
                           ),
                         );
                       },
-                      child: AnimeCard(
-                        anime: summerAnimeList[index],
-                      ),
-                    );
-                  },
-                ),
-              ),
-              // Блок "Зимний аниме сезон"
-              Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text(
-                  'Winter Anime Season',
-                  style: GoogleFonts.nunito(
-                    textStyle: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 132, 20, 45), // Цвет сакуры
                     ),
                   ),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Container(
-                height: 200.0,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: winterAnimeList.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AnimeDetailScreen(animeTitle: winterAnimeList[index].title),
+                  // Блок "Зимний аниме сезон"
+                  Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text(
+                      'Winter Anime Season',
+                      style: GoogleFonts.nunito(
+                        textStyle: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 132, 20, 45), // Цвет сакуры
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10.0),
+                  Container(
+                    height: 200.0,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: winterAnimeList.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AnimeDetailScreen(animeTitle: winterAnimeList[index].title),
+                              ),
+                            );
+                          },
+                          child: AnimeCard(
+                            anime: winterAnimeList[index],
                           ),
                         );
                       },
-                      child: AnimeCard(
-                        anime: winterAnimeList[index],
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text(
-                  'Manga',
-                  style: GoogleFonts.nunito(
-                    textStyle: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 132, 20, 45), // Мятный цвет
                     ),
                   ),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Container(
-                height: 200.0,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: mangaAnimeList.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AnimeDetailScreen(animeTitle: mangaAnimeList[index].title),
+                  Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text(
+                      'Manga',
+                      style: GoogleFonts.nunito(
+                        textStyle: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 132, 20, 45), // Мятный цвет
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10.0),
+                  Container(
+                    height: 200.0,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: mangaAnimeList.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AnimeDetailScreen(animeTitle: mangaAnimeList[index].title),
+                              ),
+                            );
+                          },
+                          child: AnimeCard(
+                            anime: mangaAnimeList[index],
                           ),
                         );
                       },
-                      child: AnimeCard(
-                        anime: mangaAnimeList[index],
-                      ),
-                    );
-                  },
-                ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
     }
@@ -167,9 +179,9 @@ class _MainScreenState extends State<MainScreen> {
             label: 'Waiting Titles',
           ),
           BottomNavigationBarItem(
-      icon: Icon(Icons.person, color: Color.fromARGB(255, 145, 248, 219)), // Иконка человечка
-      label: 'Профиль', // Или 'User' или что угодно другое
-    ),
+            icon: Icon(Icons.person, color: Color.fromARGB(255, 145, 248, 219)), // Иконка человечка
+            label: 'Профиль', // Или 'User' или что угодно другое
+          ),
         ],
       ),
     );
